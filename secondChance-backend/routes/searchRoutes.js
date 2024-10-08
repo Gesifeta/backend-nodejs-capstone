@@ -17,7 +17,7 @@ router.get('/api/secondchance/items', async (req, res, next) => {
     }
 });
 
-router.get('/api/secondchance/items/search', async (req, res, next) => {
+router.get('/api/secondchance/search', async (req, res, next) => {
         try {
             // Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
             // {{insert code here}}
