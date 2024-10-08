@@ -51,13 +51,15 @@ router.post('/', async (req, res, next) => {
         //Step 3: task 3 - insert code here
         //find the last id
         const lastItem = await collection.find({}).sort({ id: -1 }).limit(1).toArray();
-        await lastItem.foreEach(item => { newItem.id = (parseInt(item.id) + 1).toString() });
+        console.log(lastItem);  
+    
+        await lastItem.forEach(item => { newItem.id = (parseInt(item.id) + 1).toString() });
         const date_added = Math.floor(new Date().getTime() / 1000);
-        secondChanceItem.date_added = date_added
+        newItem.date_added = date_added
         const secondChanceItem = await collection.insertOne(newItem);
         //Step 3: task 4 - insert code here
         //Step 3: task 5 - insert code here
-        res.status(201).json(secondChanceItem.ops[0]);
+        res.status(201).json(secondChanceItem);
     } catch (e) {
         next(e);
     }
