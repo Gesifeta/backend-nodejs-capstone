@@ -1,5 +1,6 @@
 const express = require("express")
 const bcrypt = require("bcryptjs")
+const { body, validationResult } = require("express-validator")
 
 const connectToDatabase = require("../models/db");
 const { userDoesExist, generateToken, verifyToken } = require("../auth/authRoutes");
@@ -40,7 +41,7 @@ router.post('/register', async (req, res) => {
                 id: newUser.insertedId.toString()
             }
         })
-       
+
         if (authToken) {
             logger.info("User registered successfully")
             res.status(201).json({ authToken, email })
@@ -84,4 +85,40 @@ router.post('/login', async (req, res) => {
 
     }
 });
+//update user
+router.put("/update", [
+    body('email', "email is required").isEmail(),
+    body('firstName', "firstName is required").isLength({ min: 3 }),
+], async (req, res) => {
+    const errors = validationResult(req);
+    const { email } = req.headers
+    console.log("header email=== >", email)
+    const { firstName } = req.body;
+    if (!errors.isEmpty()) {
+        logger.error('Validation errors in update request', errors.array());
+        return res.status(400).json({ errors: errors.array() })
+    }
+    const db = await connectToDatabase();
+    const users = await db.collection("users")
+    if (!email) {
+        logger.error('Email not found in the request headers');
+        return res.status(403).json({ message: "Email not found in the request headers" })
+    }
+    if (email !== req.body.email) return res.status(403).json({ message: "You are not , Email cannot be changed" })
+    const existingUser = await users.findOne({ email })
+    if (!existingUser) return res.status(404).json({ message: "User not found" })
+
+    const updatedUser = await users.updateOne({ email }, {
+        $set: { firstName }  })
+        console.log("updateduser=== >",updatedUser)
+    //create token
+    const authToken = generateToken({
+        user: {
+            id: existingUser._id.toString()
+        }
+    })
+    return res.json({ authToken, email: req.body.email })
+
+
+})
 module.exports = router;
