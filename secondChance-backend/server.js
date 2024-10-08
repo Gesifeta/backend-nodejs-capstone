@@ -4,12 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const pinoLogger = require('./logger');
 
-const connectToDatabase = require('./models/db');
-const {loadData} = require("./util/import-mongo/index");
-
+const connectToDatabase = require('./models/db');;
 
 const app = express();
-app.use("*",cors());
+app.use("*", cors());
 const port = 3060;
 
 // Connect to MongoDB; we just do this one time
@@ -18,13 +16,12 @@ connectToDatabase().then(() => {
 })
     .catch((e) => console.error('Failed to connect to DB', e));
 
-
 app.use(express.json());
 
 // Route files
 
 // authRoutes Step 2: import the authRoutes and store in a constant called authRoutes
-//{{insert code here}}
+const searchRoutes = require('./routes/searchRoutes');
 
 // Items API Task 1: import the secondChanceItemsRoutes and store in a constant called secondChanceItemsRoutes
 //{{insert code here}}
@@ -46,8 +43,7 @@ app.use(pinoHttp({ logger }));
 //{{insert code here}}
 
 // Search API Task 2: add the searchRoutes to the server by using the app.use() method.
-//{{insert code here}}
-
+//app.use('/', searchRoutes)
 
 // Global Error Handler
 app.use((err, req, res, next) => {
@@ -55,7 +51,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Internal Server Error');
 });
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Inside the server")
 })
 

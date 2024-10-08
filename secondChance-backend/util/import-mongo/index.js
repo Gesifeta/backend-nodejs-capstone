@@ -3,9 +3,10 @@ const MongoClient = require('mongodb').MongoClient;
 const fs = require('fs');
 
 // MongoDB connection URL with authentication options
-let url = `${process.env.MONGO_URL}`;
+let url = `mongodb://root:${process.env.MONGO_DB_INIT_ROOT_PASSWORD}@${process.env.MONGO_DB_LOCAL_HOST}/${process.env.MONGO_DB_LOCAL_NAME}`;
+let MONGE_URI=`${process.env.MONGO_DB_LOCAL_HOST}`
 let filename = `${__dirname}/secondChanceItems.json`;
-const dbName = 'secondChance';
+const dbName = process.env.MONGO_DB_LOCAL_NAME;
 const collectionName = 'secondChanceItems';
 
 // notice you have to load the array of items into the data object
@@ -13,15 +14,14 @@ const data = JSON.parse(fs.readFileSync(filename, 'utf8')).docs;
 
 // connect to database and insert data into the collection
 async function loadData() {
-    const client = new MongoClient(url);
-
+    const client = new MongoClient(MONGE_URI)
     try {
         // Connect to the MongoDB client
         await client.connect();
         console.log("Connected successfully to server");
 
         // database will be created if it does not exist
-        const db = client.db(dbName);
+        const db = client.db(`${dbName}`);
 
         // collection will be created if it does not exist
         const collection = db.collection(collectionName);
@@ -37,14 +37,8 @@ async function loadData() {
         }
     } catch (err) {
         console.error(err);
-    } finally {
-        // Close the connection
-        await client.close();
-    }
+    } 
 }
-
-loadData();
-
 module.exports = {
     loadData,
   };
