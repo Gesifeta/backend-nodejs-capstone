@@ -5,6 +5,8 @@ const cors = require('cors');
 const pinoLogger = require('./logger');
 
 const connectToDatabase = require('./models/db');;
+const secondChanceItemsRoutes = require('./routes/secondChanceItemsRoutes');
+const searchRoutes = require('./routes/searchRoutes');
 
 const app = express();
 app.use("*", cors());
@@ -21,7 +23,7 @@ app.use(express.json());
 // Route files
 
 // authRoutes Step 2: import the authRoutes and store in a constant called authRoutes
-const searchRoutes = require('./routes/searchRoutes');
+
 
 // Items API Task 1: import the secondChanceItemsRoutes and store in a constant called secondChanceItemsRoutes
 //{{insert code here}}
@@ -41,9 +43,12 @@ app.use(pinoHttp({ logger }));
 
 // Items API Task 2: add the secondChanceItemsRoutes to the server by using the app.use() method.
 //{{insert code here}}
+app.use('/api/secondchance/items', secondChanceItemsRoutes)
 
 // Search API Task 2: add the searchRoutes to the server by using the app.use() method.
 //app.use('/', searchRoutes)
+
+app.use('/api/secondchance/items', searchRoutes)
 
 // Global Error Handler
 app.use((err, req, res, next) => {
@@ -51,8 +56,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Internal Server Error');
 });
 
-
-app.use('/', searchRoutes)
 app.get("/", (req, res) => {
     res.send("Inside the server")
 })
