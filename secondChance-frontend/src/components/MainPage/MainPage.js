@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {urlConfig} from '../../config';
+import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AppContext';
 
 function MainPage() {
@@ -43,37 +43,37 @@ function MainPage() {
     };
 
     const getConditionClass = (condition) => {
-        return condition === "New" ? "list-group-item-success" : "list-group-item-warning";
+        return condition === 'New' ? 'list-group-item-success' : 'list-group-item-warning';
     };
 
     return (
-        <div className="container mt-5">
+        <div className='container mt-5'>
             {isLoggedIn ? (
-              <button onClick={handleAddItem}>Add Item</button>
+                <button onClick={handleAddItem}>Add Item</button>
             ) : (
                 null
             )}
-        <div className="row">
+            <div className='row'>
                 {items.map((item) => (
-                    <div key={item.id} className="col-md-4 mb-4">
-                        <div className="card product-card">
-                            <div className="image-placeholder">
+                    <div key={item.id} className='col-md-4 mb-4'>
+                        <div className='card product-card'>
+                            <div className='image-placeholder'>
                                 {item.image ? (
-                                    <img src={urlConfig.backendUrl+item.image} alt={item.name} />                                ) : (
-                                    <div className="no-image-available">No Image Available</div>
+                                    <img src={urlConfig.backendUrl + item.image} alt={item.name} />) : (
+                                    <div className='no-image-available'>No Image Available</div>
                                 )}
                             </div>
-                            <div className="card-body">
-                                <h5 className="card-title">{item.name}</h5>
+                            <div className='card-body'>
+                                <h5 className='card-title'>{item.name}</h5>
                                 <p className={`card-text ${getConditionClass(item.condition)}`}>
                                     {item.condition}
                                 </p>
-                                <p className="card-text date-added">
+                                <p className='card-text date-added'>
                                     {formatDate(item.date_added)}
                                 </p>
                             </div>
-                            <div className="card-footer">
-                                <button onClick={() => goToDetailsPage(item.id)} className="btn btn-primary w-100">
+                            <div className='card-footer'>
+                                <button onClick={() => goToDetailsPage(item.id)} className='btn btn-primary w-100'>
                                     View Details
                                 </button>
                             </div>

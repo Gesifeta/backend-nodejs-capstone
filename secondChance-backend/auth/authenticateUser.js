@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken')
 
-//genereate jwt token with error handlere
-//verify token
-//user authentication
+// genereate jwt token with error handlere
+// verify token
+// user authentication
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']

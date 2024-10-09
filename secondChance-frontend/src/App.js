@@ -15,19 +15,19 @@ import { AppProvider } from './context/AppContext';
 function App() {
 
   return (
-      <AppProvider>
-        <Navbar/>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/app" element={<MainPage />} />
-          <Route path='/app/profile' element={<Profile/>}/>
-          <Route path="/app/item/:itemId" element={<DetailsPage/>} />
-          <Route path="/app/search" element={<SearchPage/>} />
-          <Route path="/app/login" element={<LoginPage/>} />
-          <Route path="/app/register" element={<RegisterPage />} />
-          <Route path="/app/addItem" element={<ItemPage />} />
-        </Routes>
-        </AppProvider>
+    <AppProvider>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/app' element={<MainPage />} />
+        <Route path='/app/profile' element={<Profile />} />
+        <Route path='/app/item/:itemId' element={<DetailsPage />} />
+        <Route path='/app/search' element={<SearchPage />} />
+        <Route path='/app/login' element={<LoginPage />} />
+        <Route path='/app/register' element={<RegisterPage />} />
+        <Route path='/app/addItem' element={<ItemPage />} />
+      </Routes>
+    </AppProvider>
   );
 
 

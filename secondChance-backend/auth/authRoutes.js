@@ -1,15 +1,15 @@
-const jwt = require("jsonwebtoken")
-const connectToDatabase = require("../models/db");
-const logger = require("../logger");
+const jwt = require('jsonwebtoken')
+const connectToDatabase = require('../models/db');
+const logger = require('../logger');
 
-//generate token
+// generate token
 
 function generateToken(user) {
-    logger.info("generating token")
-    
+    logger.info('generating token')
+
     return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' })
 }
-//verify token
+// verify token
 function verifyToken(token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
@@ -20,11 +20,11 @@ function verifyToken(token) {
     })
 
 }
-//verify if user exists in a database
+// verify if user exists in a database
 async function userDoesExist(email) {
     try {
         const db = await connectToDatabase()
-        const users = await db.collection("users")
+        const users = await db.collection('users')
         const doesExist = await users.findOne({ email });
         if (doesExist) return true;
         return false;
