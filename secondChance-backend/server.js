@@ -12,9 +12,8 @@ const port = 3060
 
 //  Connect to MongoDB we just do this one time
 connectToDatabase().then(() => {
-    pinoLogger.info('Connected to DB')
-})
-    .catch((e) => console.error('Failed to connect to DB', e))
+pinoLogger.info('Connected to DB')
+}).catch((e) => console.error('Failed to connect to DB', e))
 
 app.use(express.json())
 const userRoutes = require('./routes/userRoutes')
@@ -30,13 +29,13 @@ app.use('/api/auth', userRoutes)
 app.use('/api/secondchance/items', secondChanceItemsRoutes)
 app.use('/api', searchRoutes)
 app.use((err, req, res, next) => {
-    console.error(err)
-    res.status(500).send('Internal Server Error')
+console.error(err)
+res.status(500).send('Internal Server Error')
 })
 
 app.get('/', (req, res) => {
-    res.send('Inside the server')
+res.send('Inside the server')
 })
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
+console.log(`Server running on port ${port}`)
 })
