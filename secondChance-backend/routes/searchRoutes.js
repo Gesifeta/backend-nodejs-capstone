@@ -15,27 +15,31 @@ router.get('/search', async (req, res, next) => {
 
         //console.log(gifts);
         // Initialize the query object
-        let query = {};
+        let query = {
+            name: req.body.name,
+            category: req.body.category,
+            condition: req.body.condition,
+            age_years: req.body.age_years
+        };
         // Add the name filter to the query if the name parameter is not empty
         if (req.query.name) {
             query.name = { $regex: req.query.name, $options: "i" }; // Using regex for partial match, case-insensitive
         }
 
         // Task 3: Add other filters to the query
-        if (req.query.category) {
+        if (req.query.category || req.body.category) {
             query.category = { $regex: req.query.category, $options: "i" }
         }
-        if (req.query.condition) {
+        if (req.query.condition || req.body.condition) {
             query.condition = { $regex: req.query.condition, $options: "i" }
         }
-        if (req.query.age_years) {
+        if (req.query.age_years || req.body.age_years) {
             query.age_years = req.query.age_years
             query.age_years = { $lte: parseInt(req.query.age_years) };
         }
 
         // Task 4: Fetch filtered gifts using the find(query) method. Make sure to use await and store the result in the `gifts` constant
         const gifts = await collection.find(query).toArray();
-        console.log(gifts);
         return res.json(gifts);
     } catch (e) {
         next(e);
