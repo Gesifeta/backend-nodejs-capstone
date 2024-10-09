@@ -117,6 +117,5 @@ router.put('/update', [
     })
     return res.json({ authToken, email: req.body.email })
 
-
 })
 module.exports = router;

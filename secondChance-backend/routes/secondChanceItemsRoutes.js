@@ -89,7 +89,7 @@ router.get('/:id', async (req, res, next) => {
 //  Update and existing item
 router.put('/:id', async (req, res, next) => {
     try {
-        /*   Update the item's attributes as follows
+        /*    Update the item's attributes as follows
            category
            condition
            age_days

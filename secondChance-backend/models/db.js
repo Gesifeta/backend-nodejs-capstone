@@ -5,7 +5,6 @@ const url = `mongodb:// ${process.env.MONGO_DB_INIT_ROOT_USER}:${process.env.MON
 //  MongoDB connection URL with authentication options
 //  let url = `${process.env.MONGO_URL}`;//  
 
-
 let dbInstance = null;
 const dbName = `secondChance`;
 
