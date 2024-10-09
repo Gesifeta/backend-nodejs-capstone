@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const pinoLogger = require('./logger')
+const {loadData}=require("./util/import-mongo/index")
 
 const connectToDatabase = require('./models/db')
 
@@ -28,7 +29,7 @@ const logger = require('./logger')
 app.use(pinoHttp({ logger }))
 app.use('/api/auth', userRoutes)
 app.use('/api/secondchance/items', secondChanceItemsRoutes)
-app.use('/api', searchRoutes)
+app.use('/api/secondchance/search?', searchRoutes)
 app.use((err, req, res, next) => {
   console.error(err)
   res.status(500).send('Internal Server Error')
@@ -40,3 +41,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
+loadData()

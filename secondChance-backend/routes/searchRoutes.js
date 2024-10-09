@@ -4,7 +4,7 @@ const connectToDatabase = require('../models/db')
 
 const router = express.Router()
 //  Search for gifts
-router.get('/api/secondchance/search', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         //  Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
         //  {{insert code here}}
@@ -15,12 +15,7 @@ router.get('/api/secondchance/search', async (req, res, next) => {
 
         // console.log(gifts)
         //  Initialize the query object
-        let query = {
-            name: req.body.name,
-            category: req.body.category,
-            condition: req.body.condition,
-            age_years: req.body.age_years
-        }
+        let query = {}
         //  Add the name filter to the query if the name parameter is not empty
         if (req.query.name) {
             query.name = { $regex: req.query.name, $options: 'i' } //  Using regex for partial match, case-insensitive
