@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
         const newUser = await users.insertOne(user)
 
         //  Task 6: Create JWT authentication if passwords match with user._id as payload
-        const authToken = generateToken({
+        const authtoken = generateToken({
             user: {
                 id: newUser.insertedId.toString()
             }
@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
         logger.info('User registered successfully')
 
         //  Task 8: Return the user email and the token as a JSON
-        return res.status(401).json({ authToken, email: req.body.email })
+        return res.status(401).json({ authtoken, email: req.body.email })
     } catch (e) {
         return res.status(500).send('Internal server error')
     }
