@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const pinoLogger = require('./logger')
-const {loadData}=require("./util/import-mongo/index")
+const { loadData } = require("./util/import-mongo/index")
 
 const connectToDatabase = require('./models/db')
 
