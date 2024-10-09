@@ -57,7 +57,6 @@ router.post('/register', async (req, res) => {
 });
 router.post('/login', async (req, res) => {
     try {
-        console.log("/login == > called")
         // Task 1: Connect to `secondChance` in MongoDB through `connectToDatabase` in `db.js`.
         const db = await connectToDatabase()
         // Task 2: Access MongoDB `users` collection
@@ -109,8 +108,11 @@ router.put("/update", [
     if (!existingUser) return res.status(404).json({ message: "User not found" })
 
     const updatedUser = await users.updateOne({ email }, {
-        $set: { firstName }  })
-        console.log("updateduser=== >",updatedUser)
+        $set: { firstName }
+    })
+    if (updatedUser.modifiedCount === 0) return res.status(404).json({ message: "User not found" }
+        , logger.info("User updated successfully")
+    )
     //create token
     const authToken = generateToken({
         user: {
