@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator')
 
 const connectToDatabase = require('../models/db')
 const { userDoesExist, generateToken, verifyToken } = require('../auth/authRoutes')
-const logger = require('../../sentiment/logger')
+const logger = require('../logger')
 const router = express.Router()
 
 router.post('/register', async (req, res) => {

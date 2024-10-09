@@ -28,7 +28,7 @@ const logger = require('./logger')
 app.use(pinoHttp({ logger }))
 app.use('/api/auth', userRoutes)
 app.use('/api/secondchance/items', secondChanceItemsRoutes)
-app.use('/api', searchRoutes)
+app.use('/api/secondchance', searchRoutes)
 app.use((err, req, res, next) => {
 console.error(err)
 res.status(500).send('Internal Server Error')
