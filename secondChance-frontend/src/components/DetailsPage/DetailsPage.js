@@ -65,7 +65,7 @@ function DetailsPage() {
                             <div className='no-image-available-large'>No Image Available</div>
                         )}
                     </div>
-                    {/* Product details */}
+                    {/*  Product details */}
                     <p><strong>Category:</strong> {gift.category}</p>
                     <p><strong>Condition:</strong> {gift.condition}</p>
                     <p><strong>Date Added:</strong> {gift.date_added}</p>

@@ -70,7 +70,7 @@ function SearchPage() {
                     <div className='filter-section mb-3 p-3 border rounded'>
                         <h5>Filters</h5>
                         <div className='d-flex flex-column'>
-                            {/* Category Dropdown */}
+                            {/*  Category Dropdown */}
                             <label htmlFor='categorySelect'>Category</label>
                             <select id='categorySelect' className='form-control my-1'>
                                 <option value=''>All</option>
@@ -79,7 +79,7 @@ function SearchPage() {
                                 ))}
                             </select>
 
-                            {/* Condition Dropdown */}
+                            {/*  Condition Dropdown */}
                             <label htmlFor='conditionSelect'>Condition</label>
                             <select id='conditionSelect' className='form-control my-1'>
                                 <option value=''>All</option>
@@ -88,7 +88,7 @@ function SearchPage() {
                                 ))}
                             </select>
 
-                            {/* Age Range Slider */}
+                            {/*  Age Range Slider */}
                             <label htmlFor='ageRange'>Less than {ageRange} years</label>
                             <input
                                 type='range'
@@ -114,7 +114,7 @@ function SearchPage() {
                         {searchResults.length > 0 ? (
                             searchResults.map(product => (
                                 <div key={product.id} className='card mb-3'>
-                                    {/* Check if product has an image and display it */}
+                                    {/*  Check if product has an image and display it */}
                                     <img src={urlConfig.backendUrl + product.image} alt={product.name} className='card-img-top' />
                                     <div className='card-body'>
                                         <h5 className='card-title'>{product.name}</h5>

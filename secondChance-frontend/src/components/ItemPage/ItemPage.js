@@ -80,7 +80,7 @@ function ItemPage() {
                         </div>
 
                         <div className='d-flex flex-column'>
-                            {/* Category Dropdown */}
+                            {/*  Category Dropdown */}
                             <label htmlFor='category'>Category</label>
                             <select id='category' className='form-control my-1' onChange={(e) => setCategory(e.target.value)}>
 
@@ -91,7 +91,7 @@ function ItemPage() {
                                 <option key='Office' value='Office'>Office</option>
                             </select>
 
-                            {/* Condition Dropdown */}
+                            {/*  Condition Dropdown */}
                             <label htmlFor='condition'>Condition</label>
                             <select id='condition' className='form-control my-1' onChange={(e) => setCondition(e.target.value)}>
                                 <option key='New' value='New'>New</option>
