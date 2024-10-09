@@ -2,18 +2,18 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const { body, validationResult } = require('express-validator')
 
-const connectToDatabase = require('../models/db');
-const { userDoesExist, generateToken, verifyToken } = require('../auth/authRoutes');
-const logger = require('../../sentiment/logger');
+const connectToDatabase = require('../models/db')
+const { userDoesExist, generateToken, verifyToken } = require('../auth/authRoutes')
+const logger = require('../../sentiment/logger')
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
     try {
-        let user = {};
+        let user = {}
         if (req.body) {
-            user.firstName = req.body.firstName;
+            user.firstName = req.body.firstName
             user.lastName = req.body.lastName
-            user.email = req.body.email;
+            user.email = req.body.email
             user.createdAt = new Date()
         }
         else {
@@ -21,17 +21,17 @@ router.post('/register', async (req, res) => {
         }
 
         //  Task 1: Connect to `secondChance` in MongoDB through `connectToDatabase` in `db.js`.
-        const db = await connectToDatabase();
+        const db = await connectToDatabase()
         //  Task 2: Access MongoDB `users` collection
         const users = await db.collection('users')
         //  Task 3: Check if user credentials already exists in the database and throw an error if they do
-        const userExists = await userDoesExist(req.body.email);
+        const userExists = await userDoesExist(req.body.email)
 
         if (userExists) return res.status(401).json({ message: 'User already Exists.' })
         //  Task 4: Create a hash to encrypt the password so that it is not readable in the database
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        user.password = hashedPassword;
+        user.password = hashedPassword
         //  Task 5: Insert the user into the database
         const newUser = await users.insertOne(user)
 
@@ -48,9 +48,9 @@ router.post('/register', async (req, res) => {
         //  Task 8: Return the user email and the token as a JSON
         return res.status(401).json({ authToken, email: req.body.email })
     } catch (e) {
-        return res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error')
     }
-});
+})
 router.post('/login', async (req, res) => {
     try {
         //  Task 1: Connect to `secondChance` in MongoDB through `connectToDatabase` in `db.js`.
@@ -61,11 +61,11 @@ router.post('/login', async (req, res) => {
         const user = await users.findOne({ email: req.body.email })
         if (!user) return res.status(404).json({ message: 'User not found' })
         //  Task 4: Check if the password matches the encrypted password and send appropriate message on mismatch
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        const isMatch = await bcrypt.compare(req.body.password, user.password)
         if (!isMatch) return res.status(401).json({ message: 'User name or password does not match' })
         //  Task 5: Fetch user details from a database
         const userName = user.firstName
-        const userEmail = user.email;
+        const userEmail = user.email
         //  Task 6: Create JWT authentication if passwords match with user._id as payload
         const authtoken = generateToken({
             user: {
@@ -73,30 +73,30 @@ router.post('/login', async (req, res) => {
             }
         })
 
-        res.json({ authtoken, userName, userEmail });
+        res.json({ authtoken, userName, userEmail })
         //  Task 7: Send appropriate message if the user is not found
     } catch (e) {
-        return res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error')
 
     }
-});
+})
 // update user
 router.put('/update', [
     body('email', 'email is required').isEmail(),
     body('firstName', 'firstName is required').isLength({ min: 3 }),
 ], async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     const { email } = req.headers
     console.log('header email=== >', email)
-    const { firstName } = req.body;
+    const { firstName } = req.body
     if (!errors.isEmpty()) {
-        logger.error('Validation errors in update request', errors.array());
+        logger.error('Validation errors in update request', errors.array())
         return res.status(400).json({ errors: errors.array() })
     }
-    const db = await connectToDatabase();
+    const db = await connectToDatabase()
     const users = await db.collection('users')
     if (!email) {
-        logger.error('Email not found in the request headers');
+        logger.error('Email not found in the request headers')
         return res.status(403).json({ message: 'Email not found in the request headers' })
     }
     if (email !== req.body.email) return res.status(403).json({ message: 'You are not , Email cannot be changed' })
@@ -118,4 +118,4 @@ router.put('/update', [
     return res.json({ authToken, email: req.body.email })
 
 })
-module.exports = router;
+module.exports = router

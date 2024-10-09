@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
-const connectToDatabase = require('../models/db');
-const logger = require('../logger');
+const connectToDatabase = require('../models/db')
+const logger = require('../logger')
 
 // generate token
 
@@ -13,10 +13,10 @@ function generateToken(user) {
 function verifyToken(token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            return false;
+            return false
         }
 
-        return decoded;
+        return decoded
     })
 
 }
@@ -25,9 +25,9 @@ async function userDoesExist(email) {
     try {
         const db = await connectToDatabase()
         const users = await db.collection('users')
-        const doesExist = await users.findOne({ email });
-        if (doesExist) return true;
-        return false;
+        const doesExist = await users.findOne({ email })
+        if (doesExist) return true
+        return false
     } catch (error) {
         return error
 

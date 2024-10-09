@@ -9,15 +9,15 @@ const isAuthenticated = (req, res, next) => {
         })
     }
     if (authHeader.split(' ')[1]) {
-        const token = authHeader.split(' ')[1];
-        const decoded = verifyToken(token);
+        const token = authHeader.split(' ')[1]
+        const decoded = verifyToken(token)
         if (decoded) {
-            req.user = decoded;
-            next();
+            req.user = decoded
+            next()
         }
         return res.status(403).json({ message: 'You are not authorized' })
     }
     return res.status(403).json({ message: 'You are not authorized' })
 
 }
-module.exports = isAuthenticated;
+module.exports = isAuthenticated

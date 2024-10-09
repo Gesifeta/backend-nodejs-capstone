@@ -1,29 +1,29 @@
-const express = require('express');
+const express = require('express')
 
-const connectToDatabase = require('../models/db');
+const connectToDatabase = require('../models/db')
 
-const router = express.Router();
+const router = express.Router()
 //  Search for gifts
 router.get('/api/secondchance/search', async (req, res, next) => {
     try {
         //  Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
         //  {{insert code here}}
-        const db = await connectToDatabase();
+        const db = await connectToDatabase()
         // to store request body
-        const collection = db.collection('secondChanceItems');
+        const collection = db.collection('secondChanceItems')
         // query collection
 
-        // console.log(gifts);
+        // console.log(gifts)
         //  Initialize the query object
         let query = {
             name: req.body.name,
             category: req.body.category,
             condition: req.body.condition,
             age_years: req.body.age_years
-        };
+        }
         //  Add the name filter to the query if the name parameter is not empty
         if (req.query.name) {
-            query.name = { $regex: req.query.name, $options: 'i' }; //  Using regex for partial match, case-insensitive
+            query.name = { $regex: req.query.name, $options: 'i' } //  Using regex for partial match, case-insensitive
         }
 
         //  Task 3: Add other filters to the query
@@ -35,15 +35,15 @@ router.get('/api/secondchance/search', async (req, res, next) => {
         }
         if (req.query.age_years || req.body.age_years) {
             query.age_years = req.query.age_years
-            query.age_years = { $lte: parseInt(req.query.age_years) };
+            query.age_years = { $lte: parseInt(req.query.age_years) }
         }
 
         //  Task 4: Fetch filtered gifts using the find(query) method. Make sure to use await and store the result in the `gifts` constant
-        const gifts = await collection.find(query).toArray();
-        return res.json(gifts);
+        const gifts = await collection.find(query).toArray()
+        return res.json(gifts)
     } catch (e) {
-        next(e);
+        next(e)
     }
-});
+})
 
-module.exports = router;
+module.exports = router
