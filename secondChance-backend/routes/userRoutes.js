@@ -42,15 +42,11 @@ router.post('/register', async (req, res) => {
             }
         })
 
-        if (authToken) {
-            logger.info("User registered successfully")
-            res.status(201).json({ authToken, email })
-        }
-        else {
-            res.status(401).json({ message: "" })
-        }
         // Task 7: Log the successful registration using the logger
+        logger.info("User registered successfully")
+
         // Task 8: Return the user email and the token as a JSON
+        return res.status(401).json({ authToken, email: req.body.email })
     } catch (e) {
         return res.status(500).send('Internal server error');
     }

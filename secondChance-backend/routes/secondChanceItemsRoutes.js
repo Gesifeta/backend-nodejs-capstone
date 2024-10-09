@@ -21,7 +21,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
 // Get all secondChanceItems
 router.get('/', async (req, res, next) => {
     try {
@@ -40,7 +39,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // Add a new item
-router.post('/', async (req, res, next) => {
+router.post('/', upload.single('file'), async (req, res, next) => {
     try {
         const newItem = req.body;
         //Step 3: task 1 - insert code here
@@ -50,7 +49,11 @@ router.post('/', async (req, res, next) => {
         //Step 3: task 3 - insert code here
         //find the last id
         const lastItem = await collection.find({}).sort({ id: -1 }).limit(1).toArray();
-          
+        // Add file information if a file was uploaded
+        if (req.file) {
+            newItem.imageUrl = `/images/${req.file.filename}`;
+        }
+
         await lastItem.forEach(item => { newItem.id = (parseInt(item.id) + 1).toString() });
         const date_added = Math.floor(new Date().getTime() / 1000);
         newItem.date_added = date_added
@@ -123,7 +126,7 @@ router.put('/:id', async (req, res, next) => {
 // Delete an existing item
 router.delete('/:id', async (req, res, next) => {
     try {
-       
+
         const db = await connectToDatabase();
         const collection = await db.collection("secondChanceItems");
         const secondChanceItem = await collection.findOne({ id: req.params.id });
@@ -140,6 +143,5 @@ router.delete('/:id', async (req, res, next) => {
         next(e);
     }
 });
-//upload files
-// router.post('/', upload.single('file'), async(req, res, next))
+
 module.exports = router;
