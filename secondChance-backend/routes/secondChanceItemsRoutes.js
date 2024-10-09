@@ -24,7 +24,6 @@ const upload = multer({ storage: storage });
 
 // Get all secondChanceItems
 router.get('/', async (req, res, next) => {
-    logger.info('/ called');
     try {
         //Step 2: task 1 - insert code here
         const db = await connectToDatabase();
@@ -51,8 +50,7 @@ router.post('/', async (req, res, next) => {
         //Step 3: task 3 - insert code here
         //find the last id
         const lastItem = await collection.find({}).sort({ id: -1 }).limit(1).toArray();
-        console.log(lastItem);  
-    
+          
         await lastItem.forEach(item => { newItem.id = (parseInt(item.id) + 1).toString() });
         const date_added = Math.floor(new Date().getTime() / 1000);
         newItem.date_added = date_added

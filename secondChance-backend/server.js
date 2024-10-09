@@ -49,7 +49,7 @@ app.use('/api/secondchance/items', secondChanceItemsRoutes)
 // Search API Task 2: add the searchRoutes to the server by using the app.use() method.
 //app.use('/', searchRoutes)
 
-app.use('/api/secondchance/items', searchRoutes)
+app.use('/api', searchRoutes)
 
 // Global Error Handler
 app.use((err, req, res, next) => {
