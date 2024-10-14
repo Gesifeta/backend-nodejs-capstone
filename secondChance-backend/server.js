@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const pinoLogger = require('./logger')
-const { loadData } = require("./util/import-mongo/index")
+//const { loadData } = require("./util/import-mongo/index")
 
 const connectToDatabase = require('./models/db')
 
@@ -18,6 +18,23 @@ connectToDatabase().then(() => {
   .catch((e) => console.error('Failed to connect to DB', e))
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+//server images
+app.use('/images', (req,res)=> {
+  res.sendFile(__dirname ,'images')
+})
+app.use(cors())
+app.options('*', cors())
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Authorization, Accept'
+  )
+  next()
+})
+
 const userRoutes = require('./routes/userRoutes')
 
 const secondChanceItemsRoutes = require('./routes/secondChanceItemsRoutes')
@@ -41,4 +58,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
-loadData()
+//loadData()

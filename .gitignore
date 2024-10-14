@@ -9,6 +9,7 @@ screenshots
 # Distribution / packaging
 .Python
 build/
+secondChance-backend\util
 develop-eggs/
 dist/
 downloads/

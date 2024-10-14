@@ -1,8 +1,8 @@
 //  db.js
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient
-let url = `${process.env.MONGO_URL}`
-//const url = `mongodb://${process.env.MONGO_DB_INIT_ROOT_USER}:${process.env.MONGO_DB_INIT_ROOT_PASSWORD}@${process.env.MONGO_DB_LOCAL_HOST}`
+//let url = `${process.env.MONGO_URL}`
+const url = `mongodb://${process.env.MONGO_DB_INIT_ROOT_USER}:${process.env.MONGO_DB_INIT_ROOT_PASSWORD}@${process.env.MONGO_DB_LOCAL_HOST}`
 let dbInstance = null
 const dbName = `secondChance`
 
