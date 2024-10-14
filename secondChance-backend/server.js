@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const pinoLogger = require('./logger')
+const serverless = require('serverless-http')
 //const { loadData } = require("./util/import-mongo/index")
 
 const connectToDatabase = require('./models/db')
@@ -21,8 +22,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 //server images
-app.use('/images', (req,res)=> {
-  res.sendFile(__dirname ,'images')
+app.use('/images', (req, res) => {
+  res.sendFile(__dirname, 'images')
 })
 app.use(cors())
 app.options('*', cors())
@@ -44,16 +45,34 @@ const pinoHttp = require('pino-http')
 const logger = require('./logger')
 
 app.use(pinoHttp({ logger }))
-app.use('/api/auth', userRoutes)
-app.use('/api/secondchance/items', secondChanceItemsRoutes)
-app.use('/api/secondchance', searchRoutes)
+app.use('/api/', userRoutes)
+app.use('/api/', secondChanceItemsRoutes)
+app.use('/api/', searchRoutes)
 app.use((err, req, res, next) => {
   console.error(err)
   res.status(500).send('Internal Server Error')
 })
 
 app.get('/', (req, res) => {
-  res.send('Inside the server')
+  res.send(`
+  
+    <h1>Second Chance API</h1>
+    <h2>API Documentation</h2>
+    <h3>Base URL: https://secondchanceapi.netlify.app</h3>
+    <h3>API Endpoints</h3>
+    <ul>
+      <li>/api/auth - User routes</li>
+      <li>/api/secondchance/items - Second Chance Items routes</li>
+      <li>/api/secondchance/search - Search routes</li>
+    </ul>
+    <h3>API Documentation</h3>
+    <a href="/api-docs">Documentation</a>
+    <p>API is Running</p>    
+    <p>Version 1.0.0</p>
+    <p>Developed by <a href="https://gemechuadam.com">Gemechu Adam</a></p>
+    <p>Powered by <a href="https://mongodb.com">MongoDB</a></p>
+     <p>Hosted on <a href="https://wwww.netlify.com">Netlify</a></p>
+      `)
 })
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)

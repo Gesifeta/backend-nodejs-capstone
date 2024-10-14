@@ -7,7 +7,7 @@ const { userDoesExist, generateToken, verifyToken } = require('../auth/authRoute
 const logger = require('../logger')
 const router = express.Router()
 
-router.post('/register', async (req, res) => {
+router.post('/auth/register', async (req, res) => {
     try {
         let user = {}
         if (req.body) {
@@ -51,7 +51,7 @@ router.post('/register', async (req, res) => {
         return res.status(500).send('Internal server error')
     }
 })
-router.post('/login', async (req, res) => {
+router.post('/auth/login', async (req, res) => {
     try {
         //  Task 1: Connect to `secondChance` in MongoDB through `connectToDatabase` in `db.js`.
         const db = await connectToDatabase()
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
     }
 })
 // update user
-router.put('/update', [
+router.put('/auth//update', [
     body('email', 'email is required').isEmail(),
     body('firstName', 'firstName is required').isLength({ min: 3 }),
 ], async (req, res) => {
