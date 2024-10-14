@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "node-sass src/scss/main.scss src/css/main.css",
+    "build:js": "browserify src/js/main.js -o src/js/bundle.js",
+    "watch:css": "onchange 'src/scss/**/*.scss' -- npm run build:css",
+    "watch:js": "onchange 'src/js/**/*.js' -- npm run build:js",
+    "watch": "concurrently 'npm run watch:css' 'npm run watch:js'"
   },
   "keywords": [],
   "author": "",
