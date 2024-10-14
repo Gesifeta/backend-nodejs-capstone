@@ -74,7 +74,9 @@ app.get('/', (req, res) => {
      <p>Hosted on <a href="https://wwww.netlify.com">Netlify</a></p>
       `)
 })
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`)
+// })
 //loadData()
+
+module.exports.handler = serverless(app)
